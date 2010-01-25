@@ -40,6 +40,11 @@
 # Don't ship perl5i
 ^bin/perl5i$
 ^bin/perl5i.c$
+^bin/perl5i.bat$
 
 # Ignore C object files
 \.o$
+^MYMETA.yml$
+
+# Ignore emacs temp files
+^\.#

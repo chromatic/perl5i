@@ -1,4 +1,6 @@
-package SCALAR;
+# vi: set ts=4 sw=4 ht=4 et :
+package perl5i::SCALAR;
+use 5.010;
 
 use strict;
 use warnings;
@@ -6,7 +8,14 @@ use Carp;
 use Module::Load;
 
 
-sub center {
+sub SCALAR::title_case {
+    my ($string) = @_;
+    $string =~ s/\b(\w)/\U$1/g;
+    return $string;
+}
+
+
+sub SCALAR::center {
     my ($string, $size, $char) = @_;
     carp "Use of uninitialized value for size in center()" if !defined $size;
     $size //= 0;
@@ -34,7 +43,30 @@ sub center {
 }
 
 
-sub wrap {
+sub SCALAR::ltrim {
+    my ($string,$trim_charset) = @_;
+    $trim_charset = '\s' unless defined $trim_charset;
+    my $re = qr/^[$trim_charset]*/;
+    $string =~ s/$re//;
+    return $string;
+}
+
+
+sub SCALAR::rtrim {
+    my ($string,$trim_charset) = @_;
+    $trim_charset = '\s' unless defined $trim_charset;
+    my $re = qr/[$trim_charset]*$/;
+    $string =~ s/$re//;
+    return $string;
+}
+
+
+sub SCALAR::trim {
+    return SCALAR::rtrim(SCALAR::ltrim(@_));
+}
+
+
+sub SCALAR::wrap {
     my ($string, %args) = @_;
 
     my $width     = $args{width}     // 76;
@@ -49,5 +81,7 @@ sub wrap {
     return Text::Wrap::wrap('', '', $string);
 
 }
+
+
 
 1;
